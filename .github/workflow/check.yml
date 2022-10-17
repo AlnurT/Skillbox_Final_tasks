@@ -1,6 +1,13 @@
 name: Test and lint
 
 on:
+  push:
+    paths:
+      - '**.py'
+      - '.github/workflows/**'
+      - '.flake8'
+      - 'poetry.lock'
+      - 'pyproject.toml'
   pull_request:
     types:
       - opened
