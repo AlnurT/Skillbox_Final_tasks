@@ -57,7 +57,7 @@
 from random import randint
 from typing import Union
 
-from Task_6.family_classes import Cat, Husband, Wife
+from Task_25_6.family_classes import Cat, Husband, Wife
 
 
 def do_action_by_husband(husband: Husband):

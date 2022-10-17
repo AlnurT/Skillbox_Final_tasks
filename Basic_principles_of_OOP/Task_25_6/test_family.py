@@ -1,5 +1,5 @@
 import pytest
-from Task_6.family_classes import Cat, Home, Husband, Wife
+from Task_25_6.family_classes import Cat, Home, Husband, Wife
 
 
 @pytest.fixture()
