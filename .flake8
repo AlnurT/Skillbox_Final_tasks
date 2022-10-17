@@ -5,7 +5,8 @@ ignore = E203, E501, W503,  # handled by black
          D200,  # One-line docstring should fit on one line with quotes
          D107,  # Missing docstring in __init__
          T201,  # Print found
-         S311,  # Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+         S311,  # Standard pseudo-random generators are not suitable for security/cryptographic purposes
+         S101,  # Use of assert detected. The enclosed code will be removed when compiling to optimised byte code
 
 
 per-file-ignores =
