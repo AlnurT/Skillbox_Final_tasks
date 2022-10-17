@@ -47,3 +47,6 @@ jobs:
       - name: MyPy check type hints
         run: |
           poetry run mypy .
+      - name: Test with pytest
+        run: |
+          pytest . -v
