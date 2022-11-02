@@ -35,19 +35,19 @@ from typing import Callable
 
 def check_permission(user: str) -> Callable:
     def check_user_name(func: Callable) -> Callable:
-        try:
-            if user.lower() != "admin":
-                raise PermissionError
-        except PermissionError:
-            func_name = func.__name__
-
-            def func(name: str = func_name):
+        def wrapped_func(*args, **kwargs):
+            try:
+                if user.lower() != "admin":
+                    raise PermissionError
+            except PermissionError:
                 print(
                     f"PermissionError: У пользователя недостаточно прав, "
-                    f"чтобы выполнить функцию {name}"
+                    f"чтобы выполнить функцию {func.__name__}"
                 )
+                return None
+            return func(*args, **kwargs)
 
-        return func
+        return wrapped_func
 
     return check_user_name
 
