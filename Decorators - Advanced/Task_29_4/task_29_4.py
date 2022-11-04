@@ -24,19 +24,21 @@ decorated_function("Юзер", 101)
 from typing import Callable
 
 
-def decorator_with_args_for_any_decorator(func: Callable) -> Callable:
-    def wrapper(*args, **kwargs):
-        print(f"Переданные арги и кварги в декоратор: {args} {kwargs}")
-        return func
+def decorator_with_args_for_any_decorator(decorator: Callable) -> Callable:
+    def decorator_maker(*args, **kwargs):
+        def decorator_wrapper(func: Callable) -> Callable:
+            return decorator(func, *args, **kwargs)
 
-    return wrapper
+        return decorator_wrapper
+
+    return decorator_maker
 
 
 @decorator_with_args_for_any_decorator
-def decorated_decorator(func: Callable) -> Callable:
+def decorated_decorator(func: Callable, *dec_args, **dec_kwargs) -> Callable:
     def wrapper(*args, **kwargs):
-        func(*args, **kwargs)
-        return func
+        print(f"Переданные арги и кварги в декоратор: {dec_args} {dec_kwargs}")
+        return func(*args, **kwargs)
 
     return wrapper
 
