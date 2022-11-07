@@ -7,6 +7,7 @@ ignore = E203, E501, W503,  # handled by black
          T201,  # Print found
          S311,  # Standard pseudo-random generators are not suitable for security/cryptographic purposes
          S101,  # Use of assert detected. The enclosed code will be removed when compiling to optimised byte code
+         C417,  # Unnecessary use of map - use a generator expression instead
 
 
 per-file-ignores =
