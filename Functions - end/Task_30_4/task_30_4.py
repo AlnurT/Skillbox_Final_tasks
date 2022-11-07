@@ -18,13 +18,10 @@ print(can_be_poly('abbbc'))
 True
 False
 """
-import collections
 
 
 def can_be_poly(line: str) -> bool:
-    reverse_line = collections.deque(line)
-    reverse_line.reverse()
-    return str(reverse_line) == line
+    return list(reversed(line)) == list(line)
 
 
 def main():
