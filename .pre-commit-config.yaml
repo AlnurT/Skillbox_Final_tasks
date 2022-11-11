@@ -45,3 +45,4 @@ repos:
         args:
           - --no-implicit-optional
           - --exclude="test_*"
+        additional_dependencies: ['types-requests']
