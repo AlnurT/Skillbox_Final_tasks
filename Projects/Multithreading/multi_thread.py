@@ -8,6 +8,7 @@
 - подсчитать общий размер этих файлов
 - вывести результат на консоль
 """
+from threading import Thread
 from urllib.parse import urljoin
 
 import requests
@@ -15,8 +16,9 @@ from bs4 import BeautifulSoup
 from Multithreading.utils import timer
 
 
-class PageSizer:
-    def __init__(self, url: str) -> None:
+class PageSizer(Thread):
+    def __init__(self, url: str, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
         self.url_base: str = url
         self.size: int = 0
 
@@ -57,7 +59,9 @@ def main() -> None:
     print("-" * 135)
 
     for sizer in sizers:
-        sizer.run()
+        sizer.start()
+    for sizer in sizers:
+        sizer.join()
 
     total_bytes = sum(sizer.size for sizer in sizers) // 1024
     print(f"\nОбщий размер: {total_bytes} Kb")
