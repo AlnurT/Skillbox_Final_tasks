@@ -11,6 +11,7 @@ import re
 
 import requests
 from bs4 import BeautifulSoup
+from working_with_resources.utils import timer
 
 
 def save_file(file_url: str) -> None:
@@ -19,7 +20,6 @@ def save_file(file_url: str) -> None:
 
     :param file_url: неполная ссылка на фото
     """
-
     filename_match = re.match(r".*/(\w+).*\.(\w+)", file_url)
     if filename_match and filename_match.group(1) != "def_avatar":
         file_name = ".".join(filename_match.groups())
@@ -43,6 +43,7 @@ def find_url_with_img(url: str) -> None:
             save_file(file_url)
 
 
+@timer
 def main() -> None:
     find_url_with_img(url="https://spbau.ru/kontaktyi/sotrudniki")
 
