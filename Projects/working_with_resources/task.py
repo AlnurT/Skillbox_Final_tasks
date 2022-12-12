@@ -7,6 +7,7 @@
 """
 import os
 import re
+from multiprocessing import Process
 
 import peewee
 import requests
@@ -27,22 +28,24 @@ class Photos(peewee.Model):
         database = peewee.SqliteDatabase("photo.db")
 
 
-def save_photo_add_in_database(file_url: str) -> None:
-    """
-    Сохранение каждой фото в папку и базу данных
+class PhotoSaver(Process):
+    def __init__(self, file_url: str, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.file_url = file_url
 
-    :param file_url: неполная ссылка на фото
-    """
+    def run(self) -> None:
+        """
+        Сохранение каждой фото в папку и базу данных
+        """
 
-    filename_match = re.match(r".*/(\w+).*\.(\w+)", file_url)
-    if filename_match:
-        if filename_match.group(1) != "def_avatar" and filename_match.group(2) == "jpg":
+        filename_match = re.match(r".*/(\w+).*\.(\w+)", self.file_url)
+        if filename_match and filename_match.group(1) != "def_avatar":
             file_name = ".".join(filename_match.groups())
             img_path = os.path.join(os.getcwd(), "photos", file_name)
             with open(img_path, "wb") as file:
-                img = requests.get(file_url).content
+                img = requests.get(self.file_url).content
                 file.write(img)
-            Photos.create(name=file_name, path=img_path, url=file_url)
+            Photos.create(name=file_name, path=img_path, url=self.file_url)
 
 
 @timer
@@ -51,10 +54,17 @@ def main() -> None:
     html_doc = requests.get(url)
     soup = BeautifulSoup(html_doc.text, "html.parser")
     Photos.create_table()
+
+    finder = []
     for link in soup.find_all("img"):
         file_url = f"https://spbau.ru/{link.get('src')}"
         if file_url:
-            save_photo_add_in_database(file_url=file_url)
+            finder.append(PhotoSaver(file_url=file_url))
+
+    for photo in finder:
+        photo.start()
+    for photo in finder:
+        photo.join()
 
 
 if __name__ == "__main__":
