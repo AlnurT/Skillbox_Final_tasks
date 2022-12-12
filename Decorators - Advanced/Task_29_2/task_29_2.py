@@ -38,8 +38,7 @@ def callback(_func=None, *, condition: str = ""):
         def wrapped_func(*args, **kwargs):
             if condition == "//":
                 return func(*args, **kwargs)
-            else:
-                return None
+            return None
 
         return wrapped_func
 

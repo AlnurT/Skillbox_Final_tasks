@@ -13,5 +13,4 @@ class SquareIterator:
         self.__counter += 1
         if self.__counter <= self.__n:
             return self.__counter**2
-        else:
-            raise StopIteration
+        raise StopIteration

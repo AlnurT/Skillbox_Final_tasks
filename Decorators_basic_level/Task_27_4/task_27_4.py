@@ -42,8 +42,7 @@ def debug(func: Callable) -> Callable:
 def greeting(name, age=None) -> str:
     if age:
         return f"Ого, {name}! Тебе уже {age} лет, ты быстро растёшь!"
-    else:
-        return f"Привет, {name}!"
+    return f"Привет, {name}!"
 
 
 def main() -> None:
